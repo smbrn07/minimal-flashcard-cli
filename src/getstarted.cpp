@@ -14,8 +14,9 @@ void showGetStarted() {
     cout << "[3]: Tạo bộ thẻ mới" << endl;
     cout << "[4]: Tạo bộ thẻ từ file" << endl;
 }
-// ok r nhe
+
 bool choosingDecksStudy() {
+    // Chon bo the de hoc
     string deckName = listAllDecks();
     // state = 1 -> recursion getStarted();
     if (deckName == "") return 1;
@@ -29,11 +30,12 @@ bool choosingDecksStudy() {
 bool choosingDecksEdit() {
     // Xem bộ thẻ đã tạo
     string deckName = listAllDecks();
-    if (deckName == "") return;
+    if (deckName == "") return 1;
     cout << deckName << endl;
     vector<pair<string,string>> previous_file = readDeck(deckName);
     manageFlashcards(previous_file);
     writeDeck(deckName, previous_file);
+    return 0;
 }
 
 bool creatingNewDeck() {
@@ -43,7 +45,7 @@ bool creatingNewDeck() {
     cin >> deckName;
     createNewDeck(deckName);
     vector<pair<string, string>> file;
-    manageFlashcards(file);
+    return manageFlashcards(file);
     // writeDeck(deckName, file);
 }
 
@@ -51,16 +53,11 @@ void getStarted() {
     showGetStarted();
 
     string state; cin >> state;
-    if (state == "1") {
-        if (choosingDecksStudy()) getStarted();
-    }
-    else if (state == "2") {
-        if (choosingDecksEdit()) getStarted();
-    }
-    else if (state == "3") {
-        if (creatingNewDeck()) getStarted();
-    }
+    if (state=="1" && choosingDecksStudy()) getStarted();
+    else if (state=="2" && choosingDecksEdit()) getStarted();
+    else if (state=="3" && creatingNewDeck()) getStarted();
     else if (state == "4") {
       // Nhap the tu file
+
     }
 }

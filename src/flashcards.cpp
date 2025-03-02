@@ -53,13 +53,13 @@ void editFlashcards(vector<Flashcard> &flashcards) {
     }
 }
 
-void manageFlashcards(vector<Flashcard> &flashcards) {
+bool manageFlashcards(vector<Flashcard> &flashcards) {
     while (true) {
         showMainMenu();
         string choice;
         cin >> choice;
 
-        if (choice == "3") break;
+        if (choice == "3") return 1;
         else if (choice == "2") {
             editFlashcards(flashcards);
         } else if (choice == "1") {
@@ -77,4 +77,5 @@ void manageFlashcards(vector<Flashcard> &flashcards) {
             cout << "Lựa chọn không hợp lệ! Vui lòng nhập lại." << endl;
         }
     }
+    return 0;
 }

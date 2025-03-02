@@ -26,5 +26,4 @@ int main() {
     } 
     else if (state == "4") break;
   }
-  return 0;
 }
