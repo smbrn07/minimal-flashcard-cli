@@ -7,7 +7,7 @@ void settingsMenu() {
     while (true) {
         cout << "[0]: Quay lại" << endl;
         cout << "[1]: Ngôn ngữ" << endl;
-        cout << "[2]: Xóa dữ liệu" << "(WIP)" << endl; //WIP
+        cout << "[2]: Xóa dữ liệu" << " (W.I.P)" << endl; //W.I.P
         cout << "[3]: Đóng góp" << endl;
         
         cout << "Chọn một tùy chọn: ";

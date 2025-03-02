@@ -58,6 +58,5 @@ void getStarted() {
     else if (state=="3" && creatingNewDeck()) getStarted();
     else if (state == "4") {
       // Nhap the tu file
-
     }
 }

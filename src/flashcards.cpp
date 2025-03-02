@@ -5,66 +5,95 @@ using namespace std;
 
 typedef pair<string, string> Flashcard;
 
+string Back = "3", Edit = "1", Remove = "2", EditorRemove = "2", Create = "1";
+
 void showMainMenu() {
     cout << "[1]: Tạo thẻ mới" << endl;
-    cout << "[2]: Sửa thẻ đã tạo" << endl;
-    cout << "[3]: Thoát" << endl;
+    cout << "[2]: Sửa/Xóa thẻ đã tạo" << endl;
+    cout << "[3]: Quay lại" << endl;
 }
 
-void showEditMenu() {
-    cout << "[1]: Tiếp tục chỉnh sửa" << endl;
-    cout << "[2]: Thoát" << endl;
+void showEditorRemoveMenuOptions() {
+    cout << "[1]: Sửa thẻ" << endl;
+    cout << "[2]: Xóa thẻ" << endl;
+    cout << "[3]: Quay lại" << endl;
 }
 
-void editFlashcards(vector<Flashcard> &flashcards) {
+void listAllFlashcards(vector<Flashcard> flashcards) {
+    cout << "Danh sách thẻ:" << endl;
+        cout << "[0]. Quay lại" << endl;
+        for (size_t i = 0; i < flashcards.size(); ++i) {
+            cout << "[" << i + 1 << "]. " << flashcards[i].first << ": " << flashcards[i].second << endl;
+        }
+}
+
+string editFlashcards(vector<Flashcard> &flashcards) {
+    cout << "Nhập số thứ tự của thẻ cần sửa: ";
+    int index;
+    cin >> index;
+
+    if (index == 0) return Back;
+    
+    while (index < 0 || index > flashcards.size()) {
+        cout << "Lựa chọn không hợp lệ! Vui lòng nhập lại." << endl;
+        cin >> index;
+    }
+
+    cout << "Nhập nội dung mới cho mặt trước: ";
+    cin.ignore();
+    getline(cin, flashcards[index - 1].first);
+    
+    cout << "Nhập nội dung mới cho mặt sau: ";
+    getline(cin, flashcards[index - 1].second);
+
+    cout << "Thẻ đã được cập nhật: " << flashcards[index - 1].first << ": " << flashcards[index - 1].second << endl;
+
+    return Edit;
+}
+
+string removeFlashcards(vector<Flashcard> &flashcards) {
+    cout << "Nhập số thứ tự của thẻ cần xóa: ";
+    int index;
+    cin >> index;
+    if (index == 0) return Back;
+    while (index < 0 || index > flashcards.size()) {
+        cout << "Lựa chọn không hợp lệ! Vui lòng nhập lại." << endl;
+        continue;
+    }
+
+    cout << "Thẻ đã được xóa: " << flashcards[index - 1].first << ": " << flashcards[index - 1].second << endl;
+    flashcards.erase(flashcards.begin() + index - 1);
+    return Remove;
+}
+
+void edit_removeFlashcards(vector<Flashcard> &flashcards, string state) {
     if (flashcards.empty()) {
         cout << "Không có thẻ nào để sửa!" << endl;
         return;
     }
-    while (true) {
-        cout << "Danh sách thẻ:" << endl;
-        for (size_t i = 0; i < flashcards.size(); ++i) {
-            cout << "[" << i + 1 << "] " << flashcards[i].first << ": " << flashcards[i].second << endl;
-        }
 
-        cout << "Nhập số thứ tự của thẻ cần sửa: ";
-        int index;
-        cin >> index;
-        
-        if (index < 1 || index > flashcards.size()) {
-            cout << "Lựa chọn không hợp lệ! Vui lòng nhập lại." << endl;
-            continue;
-        }
-
-        cout << "Nhập nội dung mới cho mặt trước: ";
-        cin.ignore();
-        getline(cin, flashcards[index - 1].first);
-        
-        cout << "Nhập nội dung mới cho mặt sau: ";
-        getline(cin, flashcards[index - 1].second);
-
-        cout << "Thẻ đã được cập nhật: " << flashcards[index - 1].first << ": " << flashcards[index - 1].second << endl;
-        
-        showEditMenu();
-        string choice;
-        cin >> choice;
-        
-        if (choice == "2") break;
+    while (state != Back) {
+        listAllFlashcards(flashcards);
+        state == Edit ? state=editFlashcards(flashcards) : state=removeFlashcards(flashcards);
     }
 }
+
 
 bool manageFlashcards(vector<Flashcard> &flashcards) {
     while (true) {
         showMainMenu();
         string choice;
         cin >> choice;
-
-        if (choice == "3") return 1;
-        else if (choice == "2") {
-            editFlashcards(flashcards);
-        } else if (choice == "1") {
+        // Quay lại
+        if (choice == Back) return 1;
+        else if (choice == EditorRemove) {
+            showEditorRemoveMenuOptions();
+            cin >> choice;
+            edit_removeFlashcards(flashcards, choice == Edit ? Edit : Remove);
+        } else if (choice == Create) {
             Flashcard newCard;
             cout << "Mặt trước của thẻ: ";
+            
             cin.ignore();
             getline(cin, newCard.first);
 

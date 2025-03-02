@@ -1,4 +1,0 @@
-comment:binh luan
-dog:con cho
-cat:con meo
-command:cau lenh
