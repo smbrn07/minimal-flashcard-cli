@@ -2,8 +2,11 @@
 #include <fstream>
 #include <vector>
 #include <sys/stat.h>
+#include <filesystem>
 
 using namespace std;
+namespace fs = std::filesystem;
+
 
 bool fileExists(const string &filePath) {
     struct stat buffer;
@@ -61,4 +64,31 @@ void writeDeck(string deckName, vector<pair<string, string>> &file) {
         fout << i.first << ":" << i.second << endl;
     }
     fout.close();
+}
+
+string listAllDecks()
+{
+  //temporary list for choosing decks
+  vector<string> listchoices;
+  
+  cout << "Danh sách các bộ thẻ: " << endl;
+  // đánh số thứ tự các bộ thẻ
+  int cnt = 0;
+  string path = "../data/decks";
+  // quay lai trang chinh
+  cout << '['<<0<<"]. " << "Quay lại" << endl;
+  for (const auto & entry : fs::directory_iterator(path)) {
+      ++cnt;
+      cout <<'['<<cnt<<"]. " << entry.path().filename() << endl;
+      // convert entry.path().filename() to string and push to listchoices
+      listchoices.push_back(entry.path().filename().string());
+  }
+  cout << "Nhập số thứ tự của bộ thẻ cần chọn: ";
+  int choice; cin >> choice;
+  while (choice < 0 || choice > cnt) {
+      cout << "Lựa chọn không hợp lệ! Vui lòng nhập lại: ";
+      cin >> choice;
+  }
+  if (choice == 0) return "";
+  return listchoices[--choice];
 }
