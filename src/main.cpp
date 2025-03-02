@@ -1,7 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+
 #include "show.cpp"
-#include "create_new_deck.cpp"
-#include "create_and_edit_flashcards.cpp"
+#include "decks.cpp"
+#include "flashcards.cpp"
+#include "settings.cpp"
 
 using namespace std;
 
@@ -12,20 +17,44 @@ int main() {
       showWelcomePage();
       string state; cin >> state;
       if (state == "1") {
-        // Bat dau
+
         showGetStarted();
+
         cin >> state;
         if (state == "1") {
-          runCreateNewDeck(file);
+          // Học thẻ
+          string deckName = showAllDecks();
+          cout << deckName << endl;
+          if (deckName == "0") continue;
         }
         else if (state == "2") {
-          // Tao bo the moi
+          // Xem bộ thẻ đã tạo
+          string deckName = showAllDecks();
+          cout << deckName << endl;
+          if (deckName == "0") continue;
+
+          vector<pair<string,string>> previous_file = readDeck(deckName);
+          manageFlashcards(previous_file);
+          writeDeck(deckName, previous_file);
+        }
+        else if (state == "3") {
+          // Tạo bộ thẻ mới
           cout << "Nhập tên bộ thẻ: ";
+
           string deckName;
           cin >> deckName;
+
           createNewDeck(deckName);
+          vector<pair<string, string>> file;
+          manageFlashcards(file);
+          // writeDeck(deckName, file);
         }
-      }
-      if (state == "4") break;
+        else if (state == "4") {
+          // Nhap the tu file
+        }
+      } else if (state == "3") {
+        settingsMenu();
+      } 
+      else if (state == "4") break;
     }
 }
