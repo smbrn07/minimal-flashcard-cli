@@ -1,1 +1,10 @@
-Finance:Tai chinh
+apple: A round fruit with red, green, or yellow skin and a crisp, juicy interior.
+benevolent: Well-meaning and kindly.
+cascade: A small waterfall, typically one of several that fall in stages down a steep rocky slope.
+diligent: Having or showing care and conscientiousness in one's work or duties.
+empathy: The ability to understand and share the feelings of another.
+facet: One side of something many-sided, especially of a cut gem.
+gregarious: Fond of company; sociable.
+harmony: The combination of simultaneously sounded musical notes to produce chords and chord progressions with a pleasing effect.
+illuminate: Light up or brighten.
+juxtapose: Place or deal with close together for contrasting effect.
